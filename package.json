@@ -1,0 +1,38 @@
+{
+  "name": "@elysium/root",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "watch": "npm run watch --workspaces --if-present",
+    "start": "npm run start --workspaces --if-present",
+    "start-uikit": "npm run cosmos --workspace=@elysium/docs",
+    "clear": "rm -rf ./node_modules package-lock.json",
+    "reset": "npm run clear && npm i",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/actualwitch/elysium.git"
+  },
+  "author": "あで",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/actualwitch/elysium/issues"
+  },
+  "homepage": "https://github.com/actualwitch/elysium#readme",
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "@types/prettier": "latest",
+    "@typescript-eslint/eslint-plugin": "latest",
+    "@typescript-eslint/parser": "latest",
+    "eslint": "latest",
+    "eslint-config-google": "latest",
+    "eslint-config-prettier": "latest",
+    "eslint-plugin-react": "latest",
+    "prettier": "latest",
+    "typescript": "latest"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "scripts": {
+    "build": "tsc -b",
+    "watch": "tsc -w",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "main": "dist/index.js",
+  "types": "types/index.d.ts",
+  "//": "Metadata",
+  "name": "@elysium/utils",
+  "version": "1.0.0",
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/actualwitch/elysium.git"
+  },
+  "author": "あで",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/actualwitch/elysium/issues"
+  },
+  "homepage": "https://github.com/actualwitch/elysium#readme"
+}

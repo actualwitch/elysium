@@ -1,0 +1,31 @@
+{
+  "name": "@elysium/uikit",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "types": "types/index.d.ts",
+  "scripts": {
+    "build": "tsc -b",
+    "watch": "tsc -w",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "nanoid": "latest",
+    "react": "latest",
+    "react-dom": "latest"
+  },
+  "devDependencies": {
+    "@types/react": "latest",
+    "@types/react-dom": "latest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/actualwitch/elysium.git"
+  },
+  "author": "あで",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/actualwitch/elysium/issues"
+  },
+  "homepage": "https://github.com/actualwitch/elysium#readme"
+}

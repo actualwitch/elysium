@@ -1,0 +1,75 @@
+{
+  "name": "@elysium/docs",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/actualwitch/elysium.git"
+  },
+  "author": "あで",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/actualwitch/elysium/issues"
+  },
+  "dependencies": {
+    "react": "latest",
+    "react-dom": "latest",
+    "web-vitals": "latest",
+    "workbox-background-sync": "latest",
+    "workbox-broadcast-update": "latest",
+    "workbox-cacheable-response": "latest",
+    "workbox-core": "latest",
+    "workbox-expiration": "latest",
+    "workbox-google-analytics": "latest",
+    "workbox-navigation-preload": "latest",
+    "workbox-precaching": "latest",
+    "workbox-range-requests": "latest",
+    "workbox-routing": "latest",
+    "workbox-strategies": "latest",
+    "workbox-streams": "latest"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "latest",
+    "@testing-library/react": "latest",
+    "@testing-library/user-event": "latest",
+    "@types/jest": "latest",
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "react-cosmos": "^5.6.0-alpha.6",
+    "react-scripts": "^5.1.0-next.14"
+  },
+  "overrides": {
+    "react-scripts": {
+      "@svgr/webpack": "^6.1.2",
+      "resolve-url-loader": "^5.0.0"
+    },
+    "react-cosmos": {
+      "socket.io": "2.5.0",
+      "react-cosmos-shared2": {
+        "socket.io-client": "2.5.0"
+      }
+    }
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build2": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "cosmos": "cosmos",
+    "cosmos:export": "cosmos-export"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

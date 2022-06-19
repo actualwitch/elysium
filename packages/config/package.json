@@ -1,0 +1,22 @@
+{
+    "name": "@elysium/config",
+    "version": "1.0.0",
+    "description": "",
+    "main": "dist/index.js",
+    "types": "types/index.d.js",
+    "scripts": {
+        "build": "tsc -b",
+        "lint": "eslint --fix src/*",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/actualwitch/elysium.git"
+    },
+    "author": "あで",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/actualwitch/elysium/issues"
+    },
+    "homepage": "https://github.com/actualwitch/elysium#readme"
+}
