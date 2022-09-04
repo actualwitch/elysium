@@ -13,6 +13,8 @@
     "url": "https://github.com/actualwitch/elysium/issues"
   },
   "dependencies": {
+    "@emotion/react": "latest",
+    "@emotion/styled": "latest",
     "react": "latest",
     "react-dom": "latest",
     "web-vitals": "latest",

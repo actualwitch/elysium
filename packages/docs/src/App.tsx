@@ -1,13 +1,11 @@
 import logo from './logo.svg';
 import './App.css';
-import { Component } from '@elysium/uikit';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <Component />
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>

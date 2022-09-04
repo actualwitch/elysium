@@ -4,7 +4,6 @@
     "jsx": "react",
     "strict": true,
     "noFallthroughCasesInSwitch": true,
-    "noImplicitReturns": true,
     "noPropertyAccessFromIndexSignature": true,
     "noUncheckedIndexedAccess": true,
     "resolveJsonModule": true,

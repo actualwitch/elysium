@@ -4,9 +4,10 @@
   "description": "",
   "scripts": {
     "build": "npm run build --workspaces --if-present",
+    "build:uikit": "npm run cosmos:export --workspace=@elysium/docs",
     "watch": "npm run watch --workspaces --if-present",
     "start": "npm run start --workspaces --if-present",
-    "start-uikit": "npm run cosmos --workspace=@elysium/docs",
+    "start:uikit": "npm run cosmos --workspace=@elysium/docs",
     "clear": "rm -rf ./node_modules package-lock.json",
     "reset": "npm run clear && npm i",
     "test": "echo \"Error: no test specified\" && exit 1"

@@ -6,13 +6,14 @@ import { WithChildren } from "src/types";
 const reset = css`
   body {
     margin: 0;
+    min-height: 200vh;
   }
   :root {
     font-family: Helvetica, Arial, sans-serif;
     hyphens: auto;
   }
 `;
-
+ 
 const Container = styled.div`
   margin: 3ch 4ch;
 `;
