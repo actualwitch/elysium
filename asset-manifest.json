@@ -1,0 +1,11 @@
+{
+  "files": {
+    "main.js": "/main.js",
+    "service-worker.js": "/service-worker.js",
+    "_renderer.html": "/_renderer.html",
+    "main.js.map": "/main.js.map"
+  },
+  "entrypoints": [
+    "main.js"
+  ]
+}
