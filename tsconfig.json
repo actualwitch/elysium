@@ -23,5 +23,5 @@
     "target": "ES2021",
     "moduleResolution": "Node"
   },
-  "exclude": ["**/node_modules/**", "**/*.spec.ts", "**/dist/**/*"]
+  "exclude": ["**/node_modules/**", "**/*.spec.ts"]
 }

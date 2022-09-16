@@ -4,6 +4,14 @@
     "watch": "tsc -w",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "dependencies": {
+    "react": "latest",
+    "react-dom": "latest"
+  },
+  "devDependencies": {
+    "@types/react": "latest",
+    "@types/react-dom": "latest"
+  },
   "main": "dist/index.js",
   "types": "types/index.d.ts",
   "//": "Metadata",
