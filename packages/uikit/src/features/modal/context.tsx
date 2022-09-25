@@ -1,4 +1,5 @@
 import { useEventEffect } from "@elysium/utils";
+import { css } from "@emotion/css";
 import * as React from "react";
 import {
   createContext,
@@ -35,14 +36,24 @@ export const createModalContext = () => {
   return { ModalProvider };
 };
 
+const modalCss = css`
+  user-select: none;
+  pointer-events: none;
+  z-index: 101;
+  & > * {
+    pointer-events: all;
+    user-select: all;
+  }
+`;
+
 const useModalNode = (resetPosition = false) => {
   const node = useMemo(() => {
     const node = document.createElement("div");
+    node.classList.add(modalCss);
     if (resetPosition) {
       node.style.position = "fixed";
       node.style.top = "0px";
       node.style.left = "0px";
-      node.style.border = "1px solid red";
     }
     return node;
   }, []);
@@ -77,6 +88,7 @@ export const Popover: FC<PopoverProps> = ({ children, containerRef }) => {
         node.style.transform = `translate(${x}px, ${y}px)`;
         node.style.height = `${height}px`;
         node.style.width = `${width}px`;
+        node.style.userSelect
       }
     },
     [node],

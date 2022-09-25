@@ -26,6 +26,7 @@
     "packages/*"
   ],
   "devDependencies": {
+    "@emotion/babel-plugin": "latest",
     "@types/prettier": "latest",
     "@typescript-eslint/eslint-plugin": "latest",
     "@typescript-eslint/parser": "latest",
@@ -35,5 +36,9 @@
     "eslint-plugin-react": "latest",
     "prettier": "latest",
     "typescript": "latest"
+  },
+  "dependencies": {
+    "@types/d3-array": "latest",
+    "d3-array": "latest"
   }
 }

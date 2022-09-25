@@ -58,5 +58,5 @@ export function useItemTransition<T = { [key: string]: unknown }, I = null | T |
     }
   }, [item, transitionState, isActive]);
 
-  return { transitionState, isActive, props: ref.current, nextState };
+  return { transitionState, shouldRender: isActive, props: ref.current, nextState };
 }

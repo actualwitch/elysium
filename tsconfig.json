@@ -18,6 +18,7 @@
     "isolatedModules": true,
     "incremental": true,
     "noErrorTruncation": true,
+    "noEmitOnError": true,
 
     "module": "NodeNext",
     "target": "ES2021",

@@ -1,7 +1,8 @@
 import React from "react";
 import { Global, css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { WithChildren } from "src/types";
+import { createModalContext } from "@elysium/uikit";
+import { WithChildren } from "@elysium/utils";
 
 const interactable = css`
   user-select: none;
@@ -49,12 +50,15 @@ const styles = css`
 const Container = styled.div`
   margin: 3ch 4ch;
 `;
+const { ModalProvider } = createModalContext();
 
 const Shell: React.FC<WithChildren> = ({ children }) => (
-  <Container>
-    {children}
-    <Global styles={styles} />
-  </Container>
+  <ModalProvider>
+    <Container>
+      {children}
+      <Global styles={styles} />
+    </Container>
+  </ModalProvider>
 );
 
 export default Shell;

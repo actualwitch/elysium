@@ -17,7 +17,7 @@ const Paragraph = styled.p<{ transitionState: TransitionState }>`
 
 export default () => {
   const [isActive, setIsActive] = useState(false);
-  const { isActive: shouldRender, transitionState, nextState } = useItemTransition(isActive);
+  const { shouldRender, transitionState, nextState } = useItemTransition(isActive);
   return (
     <div>
       <Button onClick={() => setIsActive((isActive) => !isActive)}>
