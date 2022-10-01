@@ -1,0 +1,4 @@
+{
+  // "plugins": ["@babel/preset-env", "@babel/preset-react", "@babel/typescript", "@emotion"]
+  "plugins": ["@emotion"]
+}

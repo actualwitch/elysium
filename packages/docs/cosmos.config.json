@@ -1,8 +1,5 @@
 {
   "staticPath": "public",
   "watchDirs": ["src"],
-  "publicUrl": "./",
-  "webpack": {
-    "configPath": "react-scripts/config/webpack.config"
-  }
+  "publicUrl": "./"
 }

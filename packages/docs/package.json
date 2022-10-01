@@ -13,6 +13,7 @@
     "url": "https://github.com/actualwitch/elysium/issues"
   },
   "dependencies": {
+    "@craco/craco": "latest",
     "@emotion/react": "latest",
     "@emotion/styled": "latest",
     "react": "latest",

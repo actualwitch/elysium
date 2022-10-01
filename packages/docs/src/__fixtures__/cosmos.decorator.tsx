@@ -1,8 +1,14 @@
 import React from "react";
 import { Global, css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { createModalContext } from "@elysium/uikit";
+import { createModalContext, IconProvider } from "@elysium/uikit";
 import { WithChildren } from "@elysium/utils";
+import iconSprite from "../icon-sprite.svg";
+import { hsl } from "d3-color";
+
+const fontSerif = "'Georgia', serif";
+const fontMono = "'PT Mono', serif";
+const fontSansSerif = "'Proxima Nova', 'Helvetica Neue', 'Segoe UI', sans-serif";
 
 const interactable = css`
   user-select: none;
@@ -18,24 +24,211 @@ const focusable = css`
     outline: 0;
   }
 `;
+const accent = "#ff22cb";
+const accentPale = hsl(accent);
+accentPale.l += 0.25;
+const slightBlur = "blur(7px)";
+const spotlight = css`
+  background: radial-gradient(at 51% 52%, #d5d5d5ab 16%, #bbbbbbcf 49%, transparent 69%);
+  color: #3e3e3ed6;
+`;
+const radius = "0.65ch";
+const glitchTextShadow = `-0.1ch 0px 0.1ch rgba(255, 0, 0, 0.3), 0.1ch 0px 0.1ch rgba(0, 255, 0, 0.28)`;
+
+export const lengthScale = new Array(5).fill("").map((_, index) => `${8 + index * 2}ch`);
 
 const reset = css`
+  *,
+  *:before,
+  *:after {
+    box-sizing: border-box;
+  }
   body {
     margin: 0;
   }
   :root {
-    font-family: Helvetica, Arial, sans-serif;
+    font-family: ${fontSansSerif};
     hyphens: auto;
+    color: #282828;
   }
-  p {
-    max-width: 80ch;
+  p:first-of-type {
+    margin-block-start: 0.65ch;
+  }
+  p,
+  fieldset {
+    max-width: 70ch;
+    font-weight: 500;
+  }
+  p,
+  dl,
+  multicol {
+    --margin: 1.3ch;
+    margin-block-start: var(--margin);
+    margin-block-end: var(--margin);
+  }
+  a,
+  :visited {
+    color: ${accent};
+    text-decoration-thickness: 0.15ch;
+  }
+  :visited {
+    text-decoration-color: ${accentPale.toString()};
+  }
+  ::selection {
+    background-color: ${accent};
   }
   button {
     border: 0;
-    border-radius: 0.65ch;
+    border-radius: ${radius};
     padding: 0.6ch 1.2ch;
+    :active {
+      transform: scale(0.99);
+    }
     ${interactable}
     ${focusable}
+  }
+  mark {
+    background: ${accent}69;
+    padding: 0ch 0.5ch 0.1ch;
+    border-radius: 0.3ch;
+    color: inherit;
+  }
+  kbd,
+  code,
+  samp,
+  pre,
+  textarea {
+    font-family: ${fontMono};
+  }
+  textarea resizer {
+    border-bottom-right-radius: 0.65ch;
+    padding-right: 1ch;
+    background-size: 115% 115%;
+    border-right: 0.4ch solid transparent;
+    height: 1ch;
+    width: 1ch;
+  }
+  form fieldset + fieldset {
+    margin-top: 1ch;
+  }
+  fieldset {
+    position: relative;
+    border-radius: 1.3ch;
+    backdrop-filter: ${slightBlur};
+    box-shadow: 1px 1px 5px 0px #0000001c, inset -1px -1px 0px 0px #a4a4a41c;
+    border: 0.15ch solid #f0f8ff33;
+    border-top-color: #ffffff69;
+    margin-inline: 0;
+    padding-inline: 2.2ch;
+    padding-block-start: 0ch;
+    padding-block-end: 0.6ch;
+    &:has(legend) {
+      padding-block-start: 3ch;
+    }
+    label {
+      margin-left: 0.3ch;
+    }
+  }
+  legend {
+    position: absolute;
+    left: 0;
+    top: -1px;
+    font-size: 14px;
+    letter-spacing: 0.2px;
+    padding: 1ch 2ch 0 2ch;
+    border-top: 0.15ch solid #fff;
+    border-top-left-radius: 1.3ch;
+    color: #fff;
+    opacity: 0.6;
+    text-shadow: ${glitchTextShadow};
+    svg {
+      path {
+        box-shadow: ${glitchTextShadow};
+      }
+      margin-left: -8px;
+      margin-right: 4px;
+    }
+  }
+  label {
+    display: block;
+    width: fit-content;
+    font-size: small;
+    color: #5c5c5c;
+    text-shadow: 0ch 0.08ch 0.1ch rgba(255, 255, 255, 0.5), 0 -0.08ch 0.1ch rgba(47, 47, 47, 0.25);
+    + input,
+    + textarea {
+      margin-top: 0.5ch;
+    }
+  }
+  input${["checkbox", "radio", "range", "file"].reduce((acc, item) => `${acc}:not([type="${item}"])`, "")}, textarea {
+    border-radius: ${radius};
+    border: 0.2ch solid transparent;
+    padding: 0.8ch 0.9ch 0.5ch;
+    transition: all 100ms ease-in-out;
+    background: #ffffff4f;
+    color: #3e3e3ed6;
+    :focus {
+      outline: 0;
+    }
+    :focus {
+      border-bottom: 0.2ch solid white;
+    }
+    :hover {
+      transition: all 100ms ease-in-out;
+    }
+    :hover {
+      background: #ffffff88;
+    }
+    :focus {
+      background: #ffffffa8;
+    }
+    ::placeholder {
+      color: #404040f0;
+      font-family: ${fontSansSerif};
+    }
+  }
+  input[type="range"] {
+    --range-height: 1.3ch;
+    height: var(--range-height);
+    -webkit-appearance: none;
+    margin: 0;
+    background: none;
+    :focus {
+      outline: none;
+    }
+    ::-webkit-slider-thumb {
+      border: none;
+      height: var(--range-height);
+      width: 2ch;
+      border-radius: 100%;
+      background: transparent;
+      cursor: pointer;
+      -webkit-appearance: none;
+      margin-top: -11px;
+    }
+    ::-moz-range-track {
+      height: var(--range-height);
+      cursor: pointer;
+      background: linear-gradient(to right, white 0%, white var(--value, 100%), #ffffff4f var(--value, 100%));
+      border-radius: 10ch;
+      transition: background 100ms ease-in-out;
+      border: none;
+    }
+    ::-moz-range-thumb {
+      border: none;
+      height: var(--range-height);
+      width: 0.25ch;
+      border-radius: 100%;
+      background: transparent;
+      cursor: pointer;
+    }
+  }
+  input[type="range" i]::-webkit-slider-runnable-track {
+    height: 2ch;
+    cursor: pointer;
+    background: linear-gradient(to right, white 0%, white var(--value, 100%), #ffffff4f var(--value, 100%));
+    border-radius: 10ch;
+    border: none;
   }
 `;
 
@@ -46,7 +239,7 @@ const styles = css`
     background: repeating-conic-gradient(#bdbaba 0% 25%, #b3b3b3 0% 50%) 50%/8px 8px;
   }
 `;
- 
+
 const Container = styled.div`
   margin: 3ch 4ch;
 `;
@@ -54,10 +247,12 @@ const { ModalProvider } = createModalContext();
 
 const Shell: React.FC<WithChildren> = ({ children }) => (
   <ModalProvider>
-    <Container>
-      {children}
-      <Global styles={styles} />
-    </Container>
+    <IconProvider url={iconSprite}>
+      <Container>
+        {children}
+        <Global styles={styles} />
+      </Container>
+    </IconProvider>
   </ModalProvider>
 );
 

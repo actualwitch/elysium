@@ -22,7 +22,8 @@
 
     "module": "NodeNext",
     "target": "ES2021",
-    "moduleResolution": "Node"
+    "moduleResolution": "Node",
+    "esModuleInterop": true
   },
   "exclude": ["**/node_modules/**", "**/*.spec.ts"]
 }

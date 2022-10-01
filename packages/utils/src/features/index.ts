@@ -1,3 +1,4 @@
+export * from "./caps";
 export * from "./hooks";
 export * from "./style";
 export * from "./animation";

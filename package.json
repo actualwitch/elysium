@@ -9,7 +9,7 @@
     "start": "npm run start --workspaces --if-present",
     "start:uikit": "npm run cosmos --workspace=@elysium/docs",
     "clear": "rm -rf ./node_modules package-lock.json",
-    "reset": "npm run clear && npm i",
+    "reset": "npm run clear && npm i --legacy-peer-deps",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -25,6 +25,10 @@
   "workspaces": [
     "packages/*"
   ],
+  "browserslist": [
+    "last 1 version",
+    "> 1%"
+  ],
   "devDependencies": {
     "@emotion/babel-plugin": "latest",
     "@types/prettier": "latest",
@@ -39,6 +43,10 @@
   },
   "dependencies": {
     "@types/d3-array": "latest",
-    "d3-array": "latest"
+    "@types/d3-color": "latest",
+    "@types/luxon": "latest",
+    "d3-array": "latest",
+    "d3-color": "latest",
+    "luxon": "latest"
   }
 }

@@ -1,6 +1,7 @@
 import * as React from "react";
-import { Button } from "@elysium/uikit";
+import { Button, ButtonGroup } from "@elysium/uikit";
 import styled from "@emotion/styled";
+import { lengthScale } from "./cosmos.decorator";
 
 const Container = styled.article`
   * + * {
@@ -11,9 +12,27 @@ const Container = styled.article`
 export default {
   Default: (
     <Container>
-      <button>press me</button>
-      <Button>press me</Button>
-      <Button isHovered>press me</Button>
+      <button>Default</button>
+      <Button>This</Button>
+      <Button isHovered>Hover</Button>
     </Container>
+  ),
+  Widths: (
+    <Container>
+      {lengthScale.map((width) => (
+        <Button key={width} width={width}>
+          Do the thing
+        </Button>
+      ))}
+    </Container>
+  ),
+  Group: (
+    <ButtonGroup>
+      <Button>One</Button>
+
+      <Button>Two</Button>
+
+      <Button>Three</Button>
+    </ButtonGroup>
   ),
 };
