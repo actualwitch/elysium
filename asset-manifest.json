@@ -1,6 +1,7 @@
 {
   "files": {
     "main.js": "/main.js",
+    "static/media/icon-sprite.svg": "/static/media/icon-sprite.2f893a4b70d1237ba98b5ecd679f242b.svg",
     "service-worker.js": "/service-worker.js",
     "_renderer.html": "/_renderer.html",
     "main.js.map": "/main.js.map"
