@@ -13,9 +13,9 @@
     "url": "https://github.com/actualwitch/elysium/issues"
   },
   "dependencies": {
-    "@craco/craco": "latest",
     "@emotion/react": "latest",
     "@emotion/styled": "latest",
+    "@tanstack/react-virtual": "beta",
     "react": "latest",
     "react-dom": "latest",
     "web-vitals": "latest",
@@ -40,20 +40,8 @@
     "@types/node": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
-    "react-cosmos": "^5.6.0-alpha.6",
-    "react-scripts": "^5.1.0-next.14"
-  },
-  "overrides": {
-    "react-scripts": {
-      "@svgr/webpack": "^6.1.2",
-      "resolve-url-loader": "^5.0.0"
-    },
-    "react-cosmos": {
-      "socket.io": "2.5.0",
-      "react-cosmos-shared2": {
-        "socket.io-client": "2.5.0"
-      }
-    }
+    "react-cosmos": "latest",
+    "react-scripts": "next"
   },
   "scripts": {
     "start": "react-scripts start",

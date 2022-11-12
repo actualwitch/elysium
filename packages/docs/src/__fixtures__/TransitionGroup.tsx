@@ -1,6 +1,6 @@
 import React from "react";
-import { css } from "@emotion/react";
-import styled from "@emotion/styled";
+import { css } from "@emotion/react/macro";
+import styled from "@emotion/styled/macro";
 import { shuffle } from "d3-array";
 import { readableColor, toColorString } from "polished";
 import { ChangeEvent, Dispatch, SetStateAction, useCallback, useMemo, useState } from "react";

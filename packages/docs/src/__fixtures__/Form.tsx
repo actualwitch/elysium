@@ -2,7 +2,6 @@ import { Icon } from '@elysium/uikit';
 import { useState } from 'react';
 
 export default () => { 
-  const [rangeValue, setRangeValue] = useState(10);
   return (
     <form>
       <fieldset id="forms__progress">
@@ -145,12 +144,7 @@ export default () => {
           <input
             type="range"
             id="ir"
-            value={rangeValue}
             max={100}
-            onChange={({ currentTarget }) => {
-              setRangeValue(Number(currentTarget.value))
-            }}
-            style={{['--value']: `${rangeValue / (100/100)}%`}}
           />
         </p>
         <p>
