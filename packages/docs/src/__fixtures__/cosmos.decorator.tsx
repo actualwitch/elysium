@@ -26,7 +26,8 @@ const focusable = css`
 `;
 const accent = "#ff22cb";
 const accentPale = hsl(accent);
-accentPale.l += 0.25;
+accentPale.s = .75;
+accentPale.l = .6;
 const slightBlur = "blur(7px)";
 const spotlight = css`
   background: radial-gradient(at 51% 52%, #d5d5d5ab 16%, #bbbbbbcf 49%, transparent 69%);
@@ -48,8 +49,24 @@ const reset = css`
   }
   :root {
     font-family: ${fontSansSerif};
+    font-weight: 500;
     hyphens: auto;
     color: #282828;
+    accent-color: ${accentPale.toString()};
+  }
+  ::selection {
+    background-color: ${accentPale.toString()};
+  }
+  a::selection {
+    color: #7c0074;
+  }
+  a,
+  :visited {
+    color: ${accentPale.toString()};
+    text-decoration: none;
+    :after {
+      content: "";
+    }
   }
   p:first-of-type {
     margin-block-start: 0.65ch;
@@ -57,25 +74,11 @@ const reset = css`
   p,
   fieldset {
     max-width: 70ch;
-    font-weight: 500;
   }
   p,
   dl,
   multicol {
-    --margin: 1.3ch;
-    margin-block-start: var(--margin);
-    margin-block-end: var(--margin);
-  }
-  a,
-  :visited {
-    color: ${accent};
-    text-decoration-thickness: 0.15ch;
-  }
-  :visited {
-    text-decoration-color: ${accentPale.toString()};
-  }
-  ::selection {
-    background-color: ${accent};
+    margin-block: 1.3ch;
   }
   button {
     border: 0;
@@ -89,9 +92,17 @@ const reset = css`
   }
   mark {
     background: ${accent}69;
-    padding: 0ch 0.5ch 0.1ch;
-    border-radius: 0.3ch;
+    padding: 0 0.3ch 0;
+    border-radius: 0.4ch;
     color: inherit;
+  }
+  mark::selection {
+    padding: 0;
+    border-radius: 0;
+  }
+  *:has(::selection) mark {
+    padding: 0;
+    border-radius: 0;
   }
   kbd,
   code,
@@ -99,6 +110,7 @@ const reset = css`
   pre,
   textarea {
     font-family: ${fontMono};
+    font-size: 0.9rem;
   }
   textarea resizer {
     border-bottom-right-radius: 0.65ch;
@@ -229,6 +241,30 @@ const reset = css`
     background: linear-gradient(to right, white 0%, white var(--value, 100%), #ffffff4f var(--value, 100%));
     border-radius: 10ch;
     border: none;
+  }
+  hr {
+    border: none;
+    border-bottom: 0.25ch solid currentColor;
+    color: unset;
+  }
+  table {
+    border-collapse: collapse;
+    caption {
+      text-align: start;
+      font-weight: 600;
+      padding-inline-start: 0.6ch;
+    }
+  }
+  th,
+  td {
+    padding: 0.6ch 1.2ch;
+    text-align: start;
+    :first-of-type {
+      text-align: end;
+    }
+  }
+  thead th {
+    border-bottom: 0.25ch solid currentColor;
   }
 `;
 

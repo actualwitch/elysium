@@ -1,5 +1,4 @@
 import { Icon } from '@elysium/uikit';
-import { useState } from 'react';
 
 export default () => { 
   return (
@@ -10,8 +9,8 @@ export default () => {
           Progress
         </legend>
         <p>
-          <meter value="2" min="0" max="10">
-            2 out of 10
+          <meter value="69" min="0" max="100">
+            69 out of 100
           </meter>
         </p>
         <p>

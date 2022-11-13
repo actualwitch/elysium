@@ -7,19 +7,20 @@ import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 Settings.defaultZone = "CET";
 
 const Calendar = styled.div`
-  display: flex;
-  flex-direction: column;
   height: 100vh;
   overflow-y: scroll;
 `;
 const Week = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
   display: flex;
   & > * {
     flex: 1;
   }
 `;
 const Day = styled.div<{ today?: boolean }>`
-  height: 9ch;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -37,52 +38,60 @@ const globalStyle = css`
   }
 `;
 
+const OVERSCAN = 90; // weeks
+
 export default () => {
   const ref = useRef<HTMLDivElement>(null);
   const [now, setNow] = useState(() => DateTime.local());
   const [lens, setLens] = useState(() => {
     const { weekNumber, weekYear } = now;
-    return { weekNumber, weekYear, weeks: 8 };
+    return { weekNumber, weekYear };
   });
-  const slice = useMemo(() => {
-    const { weekNumber, weekYear, weeks } = lens;
-    const start = DateTime.fromObject({ weekNumber, weekYear })
-      .startOf("month")
-      .startOf("week")
-      .minus({ weeks })
-      .startOf("week");
-    const end = DateTime.fromObject({ weekNumber, weekYear })
-      .endOf("month")
-      .endOf("week")
-      .plus({ weeks })
-      .startOf("week");
-    return Interval.fromDateTimes(start, end)
-      .splitBy({ week: 1 })
-      .map(({ start: { weekNumber, weekYear } }) => ({ weekNumber, weekYear }));
-  }, [now, lens]);
-  useLayoutEffect(() => {
-    ref.current.scroll({ top: ref.current.scrollHeight / 2 });
-  }, []);
 
-  // const virtualizer = useVirtualizer<
-  //   HTMLDivElement,
-  //   {
-  //     weekNumber: WeekNumbers;
-  //     weekYear: number;
-  //   }
-  // >({ getScrollElement: () => ref.current, count: slice.length, estimateSize: () => 180 });
+  const anchor = useMemo(() => {
+    const { weekNumber, weekYear } = lens;
+    return DateTime.fromObject({ weekNumber, weekYear }).startOf("week");
+  }, [lens]);
+
+  const virtualizer = useVirtualizer({
+    getScrollElement: () => ref.current,
+    count: 2 * OVERSCAN,
+    estimateSize: () => 100,
+    overscan: 5,
+  });
+
+  useLayoutEffect(() => {
+    virtualizer.scrollToIndex(OVERSCAN, { align: "center", smoothScroll: false });
+  }, []);
 
   return (
     <Calendar ref={ref}>
-      {/* {virtualizer.getVirtualItems().map((item) => (
-        <Week key={`${item}`}>
-          {date.splitBy({ day: 1 }).map(({ start }) => (
-            <Day key={start.valueOf()} today={start.equals(now.startOf("day"))}>
-              {start.toLocaleString({ month: "long", day: "2-digit", year: "numeric" })}
-            </Day>
-          ))}
-        </Week>
-      ))} */}
+      <div
+        style={{
+          height: `${virtualizer.getTotalSize()}px`,
+          width: "100%",
+          position: "relative",
+        }}>
+        {virtualizer.getVirtualItems().map((virtualRow) => {
+          const week = virtualRow.index - OVERSCAN;
+          const start = week > 0 ? anchor.plus({ week }) : anchor.minus({ week: -week });
+          const interval = Interval.fromDateTimes(start, start.endOf("week"));
+          return (
+            <Week
+              key={virtualRow.index}
+              style={{
+                height: `${virtualRow.size}px`,
+                transform: `translateY(${virtualRow.start}px)`,
+              }}>
+              {interval.splitBy({ day: 1 }).map(({ start }) => (
+                <Day key={start.valueOf()} today={start.equals(now.startOf("day"))}>
+                  {start.toLocaleString({ month: "long", day: "2-digit", year: "numeric" })}
+                </Day>
+              ))}
+            </Week>
+          );
+        })}
+      </div>
       <Global styles={globalStyle} />
     </Calendar>
   );
