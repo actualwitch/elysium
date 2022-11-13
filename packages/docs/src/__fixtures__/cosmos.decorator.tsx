@@ -26,8 +26,8 @@ const focusable = css`
 `;
 const accent = "#ff22cb";
 const accentPale = hsl(accent);
-accentPale.s = .75;
-accentPale.l = .6;
+accentPale.s = 0.75;
+accentPale.l = 0.6;
 const slightBlur = "blur(7px)";
 const spotlight = css`
   background: radial-gradient(at 51% 52%, #d5d5d5ab 16%, #bbbbbbcf 49%, transparent 69%);
@@ -37,6 +37,39 @@ const radius = "0.65ch";
 const glitchTextShadow = `-0.1ch 0px 0.1ch rgba(255, 0, 0, 0.3), 0.1ch 0px 0.1ch rgba(0, 255, 0, 0.28)`;
 
 export const lengthScale = new Array(5).fill("").map((_, index) => `${8 + index * 2}ch`);
+
+const tables = css`
+  table {
+    border-collapse: collapse;
+    white-space: nowrap;
+    caption {
+      text-align: start;
+      font-weight: 600;
+      padding-inline-start: 0.6ch;
+    }
+  }
+  th,
+  td {
+    padding: 0.6ch 1.2ch;
+    font-weight: 400;
+    text-align: start;
+    :first-of-type {
+      text-align: end;
+    }
+  }
+  thead,
+  tfoot {
+    th {
+      font-weight: 500;
+    }
+  }
+  thead th {
+    border-bottom: 0.25ch solid currentColor;
+  }
+  tfoot th {
+    border-top: 0.25ch solid currentColor;
+  }
+`;
 
 const reset = css`
   *,
@@ -247,25 +280,7 @@ const reset = css`
     border-bottom: 0.25ch solid currentColor;
     color: unset;
   }
-  table {
-    border-collapse: collapse;
-    caption {
-      text-align: start;
-      font-weight: 600;
-      padding-inline-start: 0.6ch;
-    }
-  }
-  th,
-  td {
-    padding: 0.6ch 1.2ch;
-    text-align: start;
-    :first-of-type {
-      text-align: end;
-    }
-  }
-  thead th {
-    border-bottom: 0.25ch solid currentColor;
-  }
+  ${tables}
 `;
 
 const styles = css`
