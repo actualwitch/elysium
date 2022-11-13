@@ -61,7 +61,7 @@ export default () => {
   });
 
   useLayoutEffect(() => {
-    virtualizer.scrollToIndex(OVERSCAN, { align: "center", smoothScroll: false });
+    virtualizer.scrollToIndex(OVERSCAN + 1, { align: "center", smoothScroll: false });
   }, []);
 
   return (

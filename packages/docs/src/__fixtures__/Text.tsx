@@ -1,3 +1,4 @@
+import { Selected } from "@elysium/uikit";
 export default {
   Headings: (
     <div>
@@ -219,7 +220,7 @@ export default {
         <strong>Sample output:</strong> <samp>This is sample output from a computer program.</samp>
       </p>
       <h2>Pre-formatted text</h2>
-          <pre>{`P R E F O R M A T T E D T E X T
+      <pre>{`P R E F O R M A T T E D T E X T
 ! " # $ % & ' ( ) * + , - . /
 0 1 2 3 4 5 6 7 8 9 : ; < = > ?
 @ A B C D E F G H I J K L M N O
@@ -277,6 +278,9 @@ p q r s t u v w x y z { | } ~ `}</pre>
       </p>
       <p>
         The <mark>mark element</mark> indicates a highlight.
+      </p>
+      <p>
+        The <Selected>selected</Selected> text.
       </p>
       <p>
         The <var>variable element</var>, such as <var>x</var> = <var>y</var>.
