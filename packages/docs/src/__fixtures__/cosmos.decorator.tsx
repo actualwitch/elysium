@@ -93,13 +93,26 @@ const reset = css`
   a::selection {
     color: #7c0074;
   }
+  a {
+    position: relative;
+    :after {
+      content: "";
+      width: 100%;
+      bottom: -0.05ch;
+      position: absolute;
+      left: 0;
+      height: 0.15ch;
+      background: currentColor;
+      transition: transform 100ms ease-out;
+    }
+    :hover:after {
+      transform: translateY(0.15ch);
+    }
+  }
   a,
   :visited {
     color: ${accentPale.toString()};
     text-decoration: none;
-    :after {
-      content: "";
-    }
   }
   p:first-of-type {
     margin-block-start: 0.65ch;
@@ -130,10 +143,6 @@ const reset = css`
     color: inherit;
   }
   mark::selection {
-    padding: 0;
-    border-radius: 0;
-  }
-  *:has(::selection) mark {
     padding: 0;
     border-radius: 0;
   }
@@ -213,24 +222,20 @@ const reset = css`
     background: #ffffff4f;
     color: #3e3e3ed6;
     :focus {
-      outline: 0;
-    }
-    :focus {
       border-bottom: 0.2ch solid white;
-    }
-    :hover {
-      transition: all 100ms ease-in-out;
+      background: #ffffffa8;
+      outline: 0;
     }
     :hover {
       background: #ffffff88;
-    }
-    :focus {
-      background: #ffffffa8;
     }
     ::placeholder {
       color: #404040f0;
       font-family: ${fontSansSerif};
     }
+  }
+  textarea::placeholder {
+    font-family: ${fontMono};
   }
   input[type="range"] {
     --range-height: 1.3ch;
