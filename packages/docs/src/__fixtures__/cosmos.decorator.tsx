@@ -95,24 +95,33 @@ const reset = css`
   }
   a {
     position: relative;
-    :after {
+    :before, :after {
+      --width: 0.33ch;
       content: "";
       width: 100%;
       bottom: -0.05ch;
       position: absolute;
       left: 0;
       height: 0.15ch;
-      background: currentColor;
-      transition: transform 100ms ease-out;
+      transition: transform 100ms ease-out, background 100ms ease-out;
+    }
+    :before {
+      background: repeating-linear-gradient(to right, transparent, transparent calc(var(--width) * 2), transparent calc(var(--width) * 2));
+    }
+    :after {
+      background: repeating-linear-gradient(to right, currentColor, currentColor calc(var(--width) * 2), transparent calc(var(--width) * 2));
     }
     :hover:after {
-      transform: translateY(0.15ch);
+      transform: translate(calc(var(--width) * 2));
     }
   }
   a,
   :visited {
     color: ${accentPale.toString()};
     text-decoration: none;
+  }
+  :visited:after {
+    transform: translate(calc(var(--width) * 1.5));
   }
   p:first-of-type {
     margin-block-start: 0.65ch;
