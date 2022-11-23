@@ -15,6 +15,7 @@ type WeekReference = {
 
 const Calendar = styled.div`
   height: 100vh;
+  overflow-x: hidden;
   overflow-y: scroll;
   /* scroll-snap-type: y mandatory; */
 `;
@@ -106,13 +107,11 @@ export default () => {
   useLayoutEffect(() => {
     virtualizer.scrollToIndex(now.weekNumber + OVERSCAN + 1, { align: "center", smoothScroll: false });
   }, []);
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (isSwitchingRef.current) {
-      setTimeout(() => {
-        isSwitchingRef.current = false;
-      }, 1);
+      isSwitchingRef.current = false;
     }
-  }, [isSwitchingRef.current]);
+  });
 
   return (
     <Calendar ref={ref}>
