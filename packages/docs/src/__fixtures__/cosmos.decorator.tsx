@@ -257,19 +257,25 @@ const reset = css`
       margin-top: -11px;
     }
     ::-moz-range-track {
-      height: var(--range-height);
+      height: 100%;
       cursor: pointer;
-      background: linear-gradient(to right, white 0%, white var(--value, 100%), #ffffff4f var(--value, 100%));
+      background: #ffffff4f;
       border-radius: 10ch;
       transition: background 100ms ease-in-out;
       border: none;
     }
     ::-moz-range-thumb {
       border: none;
-      height: var(--range-height);
+      height: 100%;
       width: 0.25ch;
       border-radius: 100%;
       background: transparent;
+      cursor: pointer;
+    }
+    ::-moz-range-progress {
+      background: white;
+      height: 100%;
+      border-radius: ${radius};
       cursor: pointer;
     }
   }

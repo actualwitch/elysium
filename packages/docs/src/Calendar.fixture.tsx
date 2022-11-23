@@ -1,16 +1,30 @@
+import { WithChildren } from "@elysium/utils";
 import { css, Global } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useVirtualizer } from "@tanstack/react-virtual";
-import { DateTime, Interval, Settings, WeekNumbers } from "luxon";
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { DateTime, Duration, Interval, Settings, WeekNumbers } from "luxon";
+import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { SEPARATOR } from "./const";
 
 Settings.defaultZone = "CET";
+
+type WeekReference = {
+  weekNumber: number;
+  weekYear: number;
+};
 
 const Calendar = styled.div`
   height: 100vh;
   overflow-y: scroll;
+  /* scroll-snap-type: y mandatory; */
 `;
-const Week = styled.div`
+
+const Container = styled.div`
+  width: 100%;
+  position: relative;
+`;
+
+const WeekContainer = styled.div`
   position: absolute;
   top: 0;
   left: 0;
@@ -22,6 +36,7 @@ const Week = styled.div`
 `;
 const Day = styled.div<{ today?: boolean }>`
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   border: 0.01ch solid pink;
@@ -38,60 +53,107 @@ const globalStyle = css`
   }
 `;
 
-const OVERSCAN = 90; // weeks
+const OVERSCAN = 1;
+const HEIGHT = 100;
+
+const useNow = () => {
+  const [now, setNow] = useState(() => DateTime.local());
+  useEffect(() => {
+    const secsToNextMin = 60 - now.second;
+    setTimeout(() => {
+      setNow(DateTime.local());
+    }, secsToNextMin);
+  }, [now]);
+  return now;
+};
+
+const Week: React.FC<WeekReference & { size: number; shift: number }> = memo(
+  ({ weekNumber, weekYear, size, shift }) => {
+    const start = DateTime.fromObject({ weekNumber, weekYear });
+    const week = Interval.fromDateTimes(start, start.endOf("week"));
+    return (
+      <WeekContainer
+        style={{
+          height: `${size}px`,
+          transform: `translateY(${shift}px)`,
+        }}>
+        {week.splitBy({ day: 1 }).map(({ start }) => (
+          <Day key={start.valueOf()}>
+            <p>{start.toLocaleString({ month: "long", day: "2-digit", year: "numeric" })}</p>
+          </Day>
+        ))}
+      </WeekContainer>
+    );
+  },
+);
 
 export default () => {
   const ref = useRef<HTMLDivElement>(null);
-  const [now, setNow] = useState(() => DateTime.local());
-  const [lens, setLens] = useState(() => {
-    const { weekNumber, weekYear } = now;
-    return { weekNumber, weekYear };
-  });
+  const isSwitchingRef = useRef(false);
+  const now = useNow();
+  const [anchor, setAnchor] = useState(() => now.startOf("year"));
+  const [duration, setDuration] = useState<number>(() => now.weeksInWeekYear);
 
-  const anchor = useMemo(() => {
-    const { weekNumber, weekYear } = lens;
-    return DateTime.fromObject({ weekNumber, weekYear }).startOf("week");
-  }, [lens]);
-
+  const count = duration + OVERSCAN * 2;
   const virtualizer = useVirtualizer({
     getScrollElement: () => ref.current,
-    count: 2 * OVERSCAN,
-    estimateSize: () => 100,
-    overscan: 5,
+    count,
+    initialOffset: OVERSCAN * HEIGHT * 2,
+    estimateSize: () => HEIGHT,
+    overscan: OVERSCAN,
   });
 
   useLayoutEffect(() => {
-    virtualizer.scrollToIndex(OVERSCAN + 1, { align: "center", smoothScroll: false });
+    virtualizer.scrollToIndex(now.weekNumber + OVERSCAN + 1, { align: "center", smoothScroll: false });
   }, []);
+  useEffect(() => {
+    if (isSwitchingRef.current) {
+      setTimeout(() => {
+        isSwitchingRef.current = false;
+      }, 1);
+    }
+  }, [isSwitchingRef.current]);
 
   return (
     <Calendar ref={ref}>
-      <div
+      <Container
         style={{
           height: `${virtualizer.getTotalSize()}px`,
-          width: "100%",
-          position: "relative",
         }}>
         {virtualizer.getVirtualItems().map((virtualRow) => {
-          const week = virtualRow.index - OVERSCAN;
-          const start = week > 0 ? anchor.plus({ week }) : anchor.minus({ week: -week });
-          const interval = Interval.fromDateTimes(start, start.endOf("week"));
+          const { weekNumber, weekYear } = anchor.plus({ week: virtualRow.index });
+          if (virtualRow.index === 0 && !isSwitchingRef.current) {
+            isSwitchingRef.current = true;
+            const lastYear = anchor.minus({ year: 1 });
+            setAnchor(lastYear);
+            setDuration(lastYear.weeksInWeekYear + lastYear.plus({ year: 1 }).weeksInWeekYear);
+            virtualizer.scrollToIndex(lastYear.weeksInWeekYear - 1, {
+              align: "start",
+              smoothScroll: false,
+            });
+          }
+          if (virtualRow.index === count - 1 && !isSwitchingRef.current) {
+            isSwitchingRef.current = true;
+            const durationEnd = anchor.plus({ week: duration });
+            const start = durationEnd.minus({ year: 1 });
+            setAnchor(start);
+            setDuration(start.weeksInWeekYear + start.plus({ year: 1 }).weeksInWeekYear);
+            virtualizer.scrollToIndex(start.weeksInWeekYear, {
+              align: "end",
+              smoothScroll: false,
+            });
+          }
           return (
             <Week
-              key={virtualRow.index}
-              style={{
-                height: `${virtualRow.size}px`,
-                transform: `translateY(${virtualRow.start}px)`,
-              }}>
-              {interval.splitBy({ day: 1 }).map(({ start }) => (
-                <Day key={start.valueOf()} today={start.equals(now.startOf("day"))}>
-                  {start.toLocaleString({ month: "long", day: "2-digit", year: "numeric" })}
-                </Day>
-              ))}
-            </Week>
+              key={`${weekYear}${SEPARATOR}${weekNumber}`}
+              weekNumber={weekNumber}
+              weekYear={weekYear}
+              size={virtualRow.size}
+              shift={virtualRow.start}
+            />
           );
         })}
-      </div>
+      </Container>
       <Global styles={globalStyle} />
     </Calendar>
   );
