@@ -93,35 +93,19 @@ const reset = css`
   a::selection {
     color: #7c0074;
   }
-  a {
-    position: relative;
-    :before, :after {
-      --width: 0.33ch;
-      content: "";
-      width: 100%;
-      bottom: -0.05ch;
-      position: absolute;
-      left: 0;
-      height: 0.15ch;
-      transition: transform 100ms ease-out, background 100ms ease-out;
-    }
-    :before {
-      background: repeating-linear-gradient(to right, transparent, transparent calc(var(--width) * 2), transparent calc(var(--width) * 2));
-    }
-    :after {
-      background: repeating-linear-gradient(to right, currentColor, currentColor calc(var(--width) * 2), transparent calc(var(--width) * 2));
-    }
-    :hover:after {
-      transform: translate(calc(var(--width) * 2));
-    }
-  }
   a,
   :visited {
     color: ${accentPale.toString()};
-    text-decoration: none;
+    text-decoration-thickness: 0.19ch;
+    text-decoration-style: solid;
+    border-top-right-radius: ${radius};
+    border-top-left-radius: ${radius};
+    :hover {
+      background-color: #7c007420;
+    }
   }
-  :visited:after {
-    transform: translate(calc(var(--width) * 1.5));
+  :visited {
+    text-decoration-style: wavy;
   }
   p:first-of-type {
     margin-block-start: 0.65ch;
@@ -230,13 +214,18 @@ const reset = css`
     transition: all 100ms ease-in-out;
     background: #ffffff4f;
     color: #3e3e3ed6;
+    :hover {
+      background: #ffffff88;
+    }
     :focus {
       border-bottom: 0.2ch solid white;
       background: #ffffffa8;
       outline: 0;
     }
-    :hover {
-      background: #ffffff88;
+    :focus:hover {
+      border-top-color: #ffffff44;
+      border-left-color: #ffffff81;
+      border-right-color: #ffffff81;
     }
     ::placeholder {
       color: #404040f0;
