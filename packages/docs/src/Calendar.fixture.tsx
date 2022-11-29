@@ -23,6 +23,13 @@ const Calendar = styled.div`
 const Container = styled.div`
   width: 100%;
   position: relative;
+
+  & > * + * {
+    border-bottom: 0.01ch solid pink;
+    & > * + * {
+      border-left: 0.01ch solid pink;
+    }
+  }
 `;
 
 const WeekContainer = styled.div`
@@ -38,14 +45,18 @@ const WeekContainer = styled.div`
 const Day = styled.div<{ today?: boolean }>`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border: 0.01ch solid pink;
+  align-items: baseline;
+  justify-content: flex-end;
+  padding: 0.6ch;
   ${(p) =>
     p.today &&
     css`
       text-decoration: underline;
     `}
+
+  p {
+    margin: 0;
+  }
 `;
 
 const globalStyle = css`
@@ -57,14 +68,15 @@ const globalStyle = css`
 const OVERSCAN = 1;
 const HEIGHT = 100;
 
-const useNow = () => {
+const useNow = (snapshot = false) => {
   const [now, setNow] = useState(() => DateTime.local());
   useEffect(() => {
+    if (snapshot) return;
     const secsToNextMin = 60 - now.second;
     setTimeout(() => {
       setNow(DateTime.local());
     }, secsToNextMin);
-  }, [now]);
+  }, [now, snapshot]);
   return now;
 };
 
@@ -72,17 +84,28 @@ const Week: React.FC<WeekReference & { size: number; shift: number }> = memo(
   ({ weekNumber, weekYear, size, shift }) => {
     const start = DateTime.fromObject({ weekNumber, weekYear });
     const week = Interval.fromDateTimes(start, start.endOf("week"));
+    const today = DateTime.local();
     return (
       <WeekContainer
         style={{
           height: `${size}px`,
           transform: `translateY(${shift}px)`,
         }}>
-        {week.splitBy({ day: 1 }).map(({ start }) => (
-          <Day key={start.valueOf()}>
-            <p>{start.toLocaleString({ month: "long", day: "2-digit", year: "numeric" })}</p>
-          </Day>
-        ))}
+        {week.splitBy({ day: 1 }).map(({ start }, index) => { 
+          const date = start.toISODate();
+          return (
+            <Day key={date} today={date === today.toISODate()}>
+              {index === 0 && (
+                <p>
+                  {start.toLocaleString({ year: "numeric" })} W{start.weekNumber}
+                </p>
+              )}
+              <p>
+                {start.toLocaleString({ month: "long", day: "2-digit" })}
+              </p>
+            </Day>
+          );
+        })}
       </WeekContainer>
     );
   },
@@ -91,7 +114,7 @@ const Week: React.FC<WeekReference & { size: number; shift: number }> = memo(
 export default () => {
   const ref = useRef<HTMLDivElement>(null);
   const isSwitchingRef = useRef(false);
-  const now = useNow();
+  const now = useNow(true);
   const [anchor, setAnchor] = useState(() => now.startOf("year"));
   const [duration, setDuration] = useState<number>(() => now.weeksInWeekYear);
 
@@ -105,7 +128,7 @@ export default () => {
   });
 
   useLayoutEffect(() => {
-    virtualizer.scrollToIndex(now.weekNumber + OVERSCAN + 1, { align: "center", smoothScroll: false });
+    virtualizer.scrollToIndex(now.weekNumber + OVERSCAN - 1, { align: "center", smoothScroll: false });
   }, []);
   useLayoutEffect(() => {
     if (isSwitchingRef.current) {

@@ -96,10 +96,10 @@ const reset = css`
   a,
   :visited {
     color: ${accentPale.toString()};
-    text-decoration-thickness: 0.19ch;
+    text-decoration-thickness: 0.15ch;
     text-decoration-style: solid;
-    border-top-right-radius: ${radius};
-    border-top-left-radius: ${radius};
+    border-top-right-radius: 0.3ch;
+    border-top-left-radius: 0.3ch;
     :hover {
       background-color: #7c007420;
     }
@@ -151,7 +151,7 @@ const reset = css`
     border-bottom-right-radius: 0.65ch;
     padding-right: 1ch;
     background-size: 115% 115%;
-    border-right: 0.4ch solid transparent;
+    border-right: 0.6ch solid transparent;
     height: 1ch;
     width: 1ch;
   }

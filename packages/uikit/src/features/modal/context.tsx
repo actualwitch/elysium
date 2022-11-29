@@ -1,16 +1,7 @@
-import { useEventEffect } from "@elysium/utils";
+import { useEventEffect, WithChildren } from "@elysium/utils";
 import { css } from "@emotion/css";
 import * as React from "react";
-import {
-  createContext,
-  FC,
-  RefObject,
-  useCallback,
-  useContext,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-} from "react";
+import { createContext, RefObject, useCallback, useContext, useLayoutEffect, useMemo, useRef } from "react";
 import { createPortal } from "react-dom";
 
 interface Context {
@@ -19,12 +10,8 @@ interface Context {
 
 const ModalContext = createContext<null | Context>(null);
 
-interface Props {
-  children: React.ReactNode;
-}
-
 export const createModalContext = () => {
-  const ModalProvider: React.FC<Props> = ({ children }) => {
+  const ModalProvider: React.FC<WithChildren> = ({ children }) => {
     const ref = useRef(null);
     return (
       <ModalContext.Provider value={{ ref }}>
@@ -68,31 +55,27 @@ const useModalNode = (resetPosition = false) => {
   return node;
 };
 
-interface PopoverProps {
-  children: React.ReactNode;
+interface PopoverProps extends WithChildren {
   containerRef: React.RefObject<HTMLElement>;
 }
 
-export const Portal: React.FC<Props> = ({ children }) => {
+export const Portal: React.FC<WithChildren> = ({ children }) => {
   const node = useModalNode();
   return createPortal(children, node);
 };
 
-export const Popover: FC<PopoverProps> = ({ children, containerRef }) => {
+export const Popover: React.FC<PopoverProps> = ({ children, containerRef }) => {
   const node = useModalNode(true);
 
-  const updateRect = useCallback(
-    () => {
-      if (containerRef.current) {
-        const {  width, height, x, y } = containerRef.current.getBoundingClientRect();
-        node.style.transform = `translate(${x}px, ${y}px)`;
-        node.style.height = `${height}px`;
-        node.style.width = `${width}px`;
-        node.style.userSelect
-      }
-    },
-    [node],
-  );
+  const updateRect = useCallback(() => {
+    if (containerRef.current) {
+      const { width, height, x, y } = containerRef.current.getBoundingClientRect();
+      node.style.transform = `translate(${x}px, ${y}px)`;
+      node.style.height = `${height}px`;
+      node.style.width = `${width}px`;
+      // node.style.userSelect
+    }
+  }, [node]);
 
   useEventEffect("scroll", updateRect);
   return createPortal(children, node);
