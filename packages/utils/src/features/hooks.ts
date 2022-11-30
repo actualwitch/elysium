@@ -24,6 +24,7 @@ export const useRafEffect = (callback?: () => void | true, shouldCancelQueued = 
 };
 
 export function useAsyncDebounce(defaultFn: () => void | (() => Promise<void>), defaultWait = 0) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const debounceRef = useRef<any>({});
   debounceRef.current.defaultFn = defaultFn;
   debounceRef.current.defaultWait = defaultWait;

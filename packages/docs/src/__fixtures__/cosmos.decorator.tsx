@@ -1,7 +1,7 @@
 import React from "react";
 import { Global, css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { createModalContext, IconProvider } from "@elysium/uikit";
+import { createModalContext, IconProvider, noAnimations } from "@elysium/uikit";
 import { WithChildren } from "@elysium/utils";
 import iconSprite from "../icon-sprite.svg";
 import { hsl } from "d3-color";
@@ -290,6 +290,9 @@ const reset = css`
     color: unset;
   }
   ${tables}
+  @media (prefers-reduced-motion: reduce) {
+    ${noAnimations}
+  }
 `;
 
 const styles = css`
