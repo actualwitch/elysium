@@ -18,6 +18,7 @@
     "@tanstack/react-virtual": "beta",
     "react": "latest",
     "react-dom": "latest",
+    "polished": "latest",
     "web-vitals": "latest",
     "workbox-background-sync": "latest",
     "workbox-broadcast-update": "latest",

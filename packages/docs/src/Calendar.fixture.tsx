@@ -1,10 +1,13 @@
 import { WithChildren } from "@elysium/utils";
+import { cover } from "polished";
 import { css, Global } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { DateTime, Duration, Interval, Settings, WeekNumbers } from "luxon";
 import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { SEPARATOR } from "./const";
+import { Button } from "@elysium/uikit";
+import { reset } from "./reset/reset";
 
 Settings.defaultZone = "CET";
 
@@ -12,58 +15,6 @@ type WeekReference = {
   weekNumber: number;
   weekYear: number;
 };
-
-const Calendar = styled.div`
-  height: 100vh;
-  overflow-x: hidden;
-  overflow-y: scroll;
-  /* scroll-snap-type: y mandatory; */
-`;
-
-const Container = styled.div`
-  width: 100%;
-  position: relative;
-
-  & > * + * {
-    border-bottom: 0.01ch solid pink;
-    & > * + * {
-      border-left: 0.01ch solid pink;
-    }
-  }
-`;
-
-const WeekContainer = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  display: flex;
-  & > * {
-    flex: 1;
-  }
-`;
-const Day = styled.div<{ today?: boolean }>`
-  display: flex;
-  flex-direction: column;
-  align-items: baseline;
-  justify-content: flex-end;
-  padding: 0.6ch;
-  ${(p) =>
-    p.today &&
-    css`
-      text-decoration: underline;
-    `}
-
-  p {
-    margin: 0;
-  }
-`;
-
-const globalStyle = css`
-  body {
-    margin: 0;
-  }
-`;
 
 const OVERSCAN = 1;
 const HEIGHT = 100;
@@ -91,7 +42,7 @@ const Week: React.FC<WeekReference & { size: number; shift: number }> = memo(
           height: `${size}px`,
           transform: `translateY(${shift}px)`,
         }}>
-        {week.splitBy({ day: 1 }).map(({ start }, index) => { 
+        {week.splitBy({ day: 1 }).map(({ start }, index) => {
           const date = start.toISODate();
           return (
             <Day key={date} today={date === today.toISODate()}>
@@ -100,9 +51,7 @@ const Week: React.FC<WeekReference & { size: number; shift: number }> = memo(
                   {start.toLocaleString({ year: "numeric" })} W{start.weekNumber}
                 </p>
               )}
-              <p>
-                {start.toLocaleString({ month: "long", day: "2-digit" })}
-              </p>
+              <p>{start.toLocaleString({ month: "long", day: "2-digit" })}</p>
             </Day>
           );
         })}
@@ -149,7 +98,7 @@ export default () => {
             const lastYear = anchor.minus({ year: 1 });
             setAnchor(lastYear);
             setDuration(lastYear.weeksInWeekYear + lastYear.plus({ year: 1 }).weeksInWeekYear);
-            virtualizer.scrollToIndex(lastYear.weeksInWeekYear - 1, {
+            virtualizer.scrollToIndex(lastYear.weeksInWeekYear - OVERSCAN - 3, {
               align: "start",
               smoothScroll: false,
             });
@@ -176,7 +125,91 @@ export default () => {
           );
         })}
       </Container>
+      <Overlay>
+        <div>
+          <Button
+            onClick={(e) => {
+              e.preventDefault();
+              setAnchor(now.startOf("year"));
+              setDuration(now.weeksInWeekYear);
+              virtualizer.scrollToIndex(now.weekNumber- 1, { align: "start" });
+            }}>
+            Now
+          </Button>
+        </div>
+      </Overlay>
       <Global styles={globalStyle} />
     </Calendar>
   );
 };
+
+const Overlay = styled.article`
+  ${cover()}
+  display: flex;
+  align-items: flex-start;
+  justify-content: end;
+  pointer-events: none;
+  & > * {
+    pointer-events: all;
+    width: 25ch;
+    height: 5.6ch;
+    background: #c8c8c8c8;
+    border-radius: 0.65ch;
+    padding: 1.4ch;
+    margin: 2ch;
+  }
+`;
+
+const Calendar = styled.div`
+  height: 100vh;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  /* scroll-snap-type: y mandatory; */
+`;
+
+const Container = styled.div`
+  width: 100%;
+  position: relative;
+  background: white;
+
+  & > * + * {
+    border-bottom: 0.01ch solid black;
+    & > * + * {
+      border-left: 0.01ch solid black;
+    }
+  }
+`;
+
+const WeekContainer = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  & > * {
+    flex: 1;
+  }
+`;
+const Day = styled.div<{ today?: boolean }>`
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+  justify-content: flex-end;
+  padding: 0.6ch;
+  ${(p) =>
+    p.today &&
+    css`
+      text-decoration: underline;
+    `}
+
+  p {
+    margin: 0;
+  }
+`;
+
+const globalStyle = css`
+  ${reset}
+  body {
+    margin: 0;
+  }
+`;

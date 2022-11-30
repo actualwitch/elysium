@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Button, ButtonGroup } from "@elysium/uikit";
 import styled from "@emotion/styled";
-import { lengthScale } from "./cosmos.decorator";
+import { lengthScale } from "src/reset/reset";
 
 const Container = styled.article`
   * + * {

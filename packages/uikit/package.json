@@ -6,8 +6,6 @@
   "types": "types/index.d.ts",
   "scripts": {
     "build": "rm -rf ./dist && rollup --config rollup.config.js",
-    "build:tsc": "tsc -b",
-    "watch": "tsc -w",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
